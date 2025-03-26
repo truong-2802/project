@@ -2,11 +2,11 @@ import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken"
 import bcrypt from "bcrypt"
 import validator from "validator"
-import express from "express";
+
 
 
 // login user
-const loginUser = async(req,res) =>{
+const loginUser = async (req,res) =>{
     const {email, password}= req.body;
     try {
         const user = await userModel.findOne({email});
@@ -44,11 +44,11 @@ const registerUser = async(req, res)=>{
 
         // validating email format & strong password
         if(!validator.isEmail(email)){
-            return res.json({success:false, message:"please enter a valid email"})
+            return res.json({success:false, message:"Please enter a valid email"})
         }
 
         if(password.length<8){
-            return res.json({success:false, message:"please enter a strong password"})
+            return res.json({success:false, message:"Please enter a strong password"})
         }
 
         // hasing user password

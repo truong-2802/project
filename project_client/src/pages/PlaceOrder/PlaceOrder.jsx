@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext'
+import axios from 'axios'
 
 const PlaceOrder = () => {
   const {getTotalCartAmount,food_list,cartItems,url} = useContext(StoreContext)
@@ -35,7 +36,18 @@ const PlaceOrder = () => {
         orderItems.push(itemInfo)
       }
     })
-    console.log(orderItems)
+    let orderData = {
+      address:data,
+      items:orderItems,
+      amount:getTotalCartAmount()+2,
+    }
+    let response = await axios.post(url+"/api/order/place",orderData,{headers:{token}})
+    if(response.data.success){
+      const {session_url} = response.data;
+      window.location.replace(session_url);
+    }else{
+      alert("Error")
+    }
   }
 
  
@@ -46,22 +58,22 @@ const PlaceOrder = () => {
         <p className="title">Delivery Information</p>
 
         <div className="multi-fields">
-        <input name='firstName' onChange={onChangHandler} value={data.firstName}type="text" placeholder='First name'/>
-        <input name='lastName' onChange={onChangHandler} value={data.lastName} type="text" placeholder='Last name'/>
+        <input required name='firstName' onChange={onChangHandler} value={data.firstName}type="text" placeholder='First name'/>
+        <input required name='lastName' onChange={onChangHandler} value={data.lastName} type="text" placeholder='Last name'/>
       </div>
-      <input name='email' onChange={onChangHandler} value={data.email} type="email" placeholder='Email address'/>
-      <input name='street' onChange={onChangHandler} value={data.street} type="text" placeholder='Street'/>
+      <input required name='email' onChange={onChangHandler} value={data.email} type="email" placeholder='Email address'/>
+      <input required name='street' onChange={onChangHandler} value={data.street} type="text" placeholder='Street'/>
 
       <div className="multi-fields">
-        <input name='city' onChange={onChangHandler} value={data.city} type="text" placeholder='City'/>
-        <input name='state' onChange={onChangHandler} value={data.state} type="text" placeholder='State'/>
+        <input required name='city' onChange={onChangHandler} value={data.city} type="text" placeholder='City'/>
+        <input required name='state' onChange={onChangHandler} value={data.state} type="text" placeholder='State'/>
       </div>
 
       <div className="place-order-right">
-        <input name='zipcode' onChange={onChangHandler} value={data.zipcode} type="text" placeholder='Zipcode'/>
-        <input name='country' onChange={onChangHandler} value={data.country} type="text" placeholder='Country'/>
+        <input required name='zipcode' onChange={onChangHandler} value={data.zipcode} type="text" placeholder='Zipcode'/>
+        <input required name='country' onChange={onChangHandler} value={data.country} type="text" placeholder='Country'/>
       </div>
-      <input name='phone' onChange={onChangHandler} value={data.phone} type="text" placeholder='phone'/>
+      <input required name='phone' onChange={onChangHandler} value={data.phone} type="text" placeholder='phone'/>
       </div>
       
 

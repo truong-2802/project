@@ -4,7 +4,7 @@ import { connectDB } from "./config/db.js"
 import foodRoute from "./routes/foodRoute.js"
 import 'dotenv/config'
 import orderRouter from "./routes/orderRoute.js"
-import userRouter from "./routes/userRotes.js"
+import userRouter from "./routes/userRoute.js"
 import cartRouter from "./routes/cartRoute.js"
 
 
